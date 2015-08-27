@@ -40,8 +40,8 @@ import org.springframework.http.HttpMethod;
 @Import(PaperTrailConfig.class)
 public @interface EnablePaperTrail {
 
-  Class<? extends PaperTrail>value();
+  Class<? extends PaperTrail> value();
 
-  HttpMethod[]targetMethods() default { POST, DELETE, PUT, PATCH };
+  HttpMethod[] targetMethods() default { POST, DELETE, PUT, PATCH };
 
 }

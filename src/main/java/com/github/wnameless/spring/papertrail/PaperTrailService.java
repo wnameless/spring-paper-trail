@@ -66,26 +66,12 @@ public final class PaperTrailService {
     callbacks = appCtx.getBeansOfType(PaperTrailCallback.class);
   }
 
-  private EnablePaperTrail getEnablePaperTrailAnno() {
-    String clz = appCtx.getBeanNamesForAnnotation(EnablePaperTrail.class)[0];
-    Annotation anno = AnnotationUtils
-        .findAnnotation(appCtx.getBean(clz).getClass(), EnablePaperTrail.class);
-
-    return (EnablePaperTrail) anno;
-  }
-
   @SuppressWarnings("unchecked")
   public void audit(HttpServletRequest request, HttpServletResponse response) {
     if (!targetMethods.contains(HttpMethod.valueOf(request.getMethod())))
       return;
 
-    PaperTrail paperTrail = null;
-    try {
-      paperTrail = (PaperTrail) paperTrailEntityClass.newInstance();
-    } catch (Exception e) {
-      log.error("PaperTrail entity can not be instantiated.", e);
-      throw new RuntimeException(e);
-    }
+    PaperTrail paperTrail = newPaperTrail();
     paperTrail.setUserId(userIdStrategy == null ? getUserTypedId(request)
         : userIdStrategy.getUserId());
     paperTrail.setRemoteAddr(request.getRemoteAddr());
@@ -100,6 +86,24 @@ public final class PaperTrailService {
         callback.doWithPaperTrail(paperTrail, request, response);
       }
     }
+  }
+
+  private EnablePaperTrail getEnablePaperTrailAnno() {
+    String clz = appCtx.getBeanNamesForAnnotation(EnablePaperTrail.class)[0];
+    Annotation anno = AnnotationUtils
+        .findAnnotation(appCtx.getBean(clz).getClass(), EnablePaperTrail.class);
+    return (EnablePaperTrail) anno;
+  }
+
+  private PaperTrail newPaperTrail() {
+    PaperTrail paperTrail = null;
+    try {
+      paperTrail = (PaperTrail) paperTrailEntityClass.newInstance();
+    } catch (Exception e) {
+      log.error("PaperTrail entity can not be instantiated.", e);
+      throw new RuntimeException(e);
+    }
+    return paperTrail;
   }
 
   private String getUserTypedId(HttpServletRequest request) {
