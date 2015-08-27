@@ -1,19 +1,19 @@
 spring-paper-trail
 =============
-Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail.
+Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail
 
 ##Purpose
-Log essential information about any stateful request which includes:<br />
-1. User ID
-2. Remote Address
-3. HTTP Method
-4. Request URI
-5. HTTP status
-6. Timestamp
+Log essential information about any stateful request which includes:
+1. User ID: the user name<br/>
+2. Remote Address: the user IP address<br/>
+3. HTTP Method: POST, DELETE, PUT or PATCH<br/>
+4. Request URI: the URI of user request<br/>
+5. HTTP status: status code, ex: 201, 404<br/>
+6. Timestamp: the date and time of this paper trail
 
 ##Features
 1. Supports all kinds of databases
-2. Provides a callback for more sophisticated operations
+2. Provides callbacks for sophisticated operations
 
 ##Maven Repo
 ```xml
@@ -26,7 +26,7 @@ Log essential information about any stateful request which includes:<br />
 #Quick Start
 
 Add @EnablePaperTrail to enable paper trail,<br/>
-PaperTrailImpl.class is an entity class which implements the PaperTrail interface
+JpaPaperTrail.class is an entity class which implements the PaperTrail interface
 ```java
 @Configuration
 @EnablePaperTrail(JpaPaperTrail.class)
@@ -42,7 +42,7 @@ public class JpaPaperTrail extends AbstractJpaPaperTrail {}
 ```
 AbstractJpaPaperTrail is a convenient abstract class for JPA PaperTrail
 
-Don't forget to provide a repository for any PaperTrail entity you just created
+Don't forget to provide a PaperTrailCrudRepository for any PaperTrail entity you just created
 ```java
 public interface PaperTrailJpaRepository
     extends PaperTrailCrudRepository<JpaPaperTrail, Long> {}
@@ -64,7 +64,7 @@ public class MongoPaperTrail implements PaperTrail {
 ```
 FYI, AbstractMongoPaperTrail is also provided in this library
 
-Again, don't forget the repository
+Again, don't forget the PaperTrailCrudRepository
 ```java
 public interface PaperTrailMongoRepository
     extends PaperTrailCrudRepository<MongoPaperTrail, String> {}
@@ -74,13 +74,13 @@ That's all you need!
 
 ##Advanced Usage
 By default, spring-paper-trail only log the POST, DELETE, PUT and PATCH methods,<br/>
-however you can change its behavior by this:
+however you can change its behavior by doing this:
 ```java
 @EnablePaperTrail(value=JpaPaperTrail.class, targetMethods={HttpMethod.GET, HttpMethod.POST})
 ```
 
 The user ID is retrieved by the HttpServletRequest#getUserPrincipal,<br/>
-but you can have your mechanism by providing a PaperTrailUserIdStrategy bean:
+but you can override this mechanism by providing a PaperTrailUserIdStrategy bean:
 ```java
 @Bean
 public PaperTrailUserIdStrategy paperTrailUserIdStrategy() {
@@ -100,5 +100,6 @@ public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
         HttpServletRequest request, HttpServletResponse response) {...}
   };
 }
+// you can create mutilple callbacks to meet your needs
 ```
 
