@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.wnameless</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<name>spring-paper-trail</name>
 	<description>Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail</description>
@@ -22,7 +21,7 @@
 		<connection>scm:git:git@github.com:wnameless/spring-paper-trail.git</connection>
 		<developerConnection>scm:git:git@github.com:wnameless/spring-paper-trail.git</developerConnection>
 		<url>git@github.com:wnameless/spring-paper-trail.git</url>
-		<tag>HEAD</tag>
+		<tag>spring-paper-trail-0.1.0</tag>
 	</scm>
 
 	<distributionManagement>
