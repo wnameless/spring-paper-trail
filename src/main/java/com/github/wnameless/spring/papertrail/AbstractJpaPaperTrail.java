@@ -20,14 +20,16 @@
  */
 package com.github.wnameless.spring.papertrail;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.http.HttpMethod;
 
 /**
@@ -36,10 +38,14 @@ import org.springframework.http.HttpMethod;
  *
  */
 @MappedSuperclass
-public abstract class AbstractJpaPaperTrail extends AbstractPersistable<Long>
-    implements PaperTrail {
+public abstract class AbstractJpaPaperTrail
+    implements PaperTrail, Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  @Id
+  @GeneratedValue
+  private Long id;
 
   @Column
   private String userId;
@@ -58,6 +64,25 @@ public abstract class AbstractJpaPaperTrail extends AbstractPersistable<Long>
   private int httpStatus;
 
   private Date createdAt = new Date();
+
+  /**
+   * Returns the entity ID.
+   * 
+   * @return an entity ID
+   */
+  public Long getId() {
+    return id;
+  }
+
+  /**
+   * Sets the entity ID.
+   * 
+   * @param id
+   *          an entity ID
+   */
+  protected void setId(final Long id) {
+    this.id = id;
+  }
 
   @Override
   public String getUserId() {
@@ -117,6 +142,22 @@ public abstract class AbstractJpaPaperTrail extends AbstractPersistable<Long>
   @Override
   public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode = 27;
+    hashCode += null == getId() ? 0 : getId().hashCode() ^ 31;
+    return hashCode;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (o == null) return false;
+    if (!getClass().equals(o.getClass())) return false;
+    AbstractJpaPaperTrail that = (AbstractJpaPaperTrail) o;
+    return null == getId() ? false : getId().equals(that.getId());
   }
 
   @Override

@@ -52,4 +52,20 @@ public abstract class AbstractMongoPaperTrail extends AbstractPaperTrail {
     this.id = id;
   }
 
+  @Override
+  public int hashCode() {
+    int hashCode = 27;
+    hashCode += null == getId() ? 0 : getId().hashCode() ^ 31;
+    return hashCode;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) return true;
+    if (o == null) return false;
+    if (!getClass().equals(o.getClass())) return false;
+    AbstractMongoPaperTrail that = (AbstractMongoPaperTrail) o;
+    return null == getId() ? false : getId().equals(that.getId());
+  }
+
 }
