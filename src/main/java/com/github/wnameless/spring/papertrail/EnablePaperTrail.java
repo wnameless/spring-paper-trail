@@ -34,14 +34,24 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 
+/**
+ * 
+ * {@link EnablePaperTrail} is designed to used with Spring Framework. It
+ * requires a {@link PaperTrail} implementation class and a
+ * {@link PaperTrailCrudRepository} should be defined properly as well.<br/>
+ * <br/>
+ * By default, it only log the stateful requests which implies the POST, DELETE,
+ * PUT and PATCH methods only. However you can change it by giving the
+ * targetMethods of your own.
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(PaperTrailConfig.class)
 public @interface EnablePaperTrail {
 
-  Class<? extends PaperTrail> value();
+  Class<? extends PaperTrail>value();
 
-  HttpMethod[] targetMethods() default { POST, DELETE, PUT, PATCH };
+  HttpMethod[]targetMethods() default { POST, DELETE, PUT, PATCH };
 
 }

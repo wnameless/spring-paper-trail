@@ -23,8 +23,27 @@ package com.github.wnameless.spring.papertrail;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * {@link PaperTrailCallback} provides an alternative way for users to perform
+ * any operation they want with the {@link PaperTrail} which is created during
+ * the paper trail mechanism.
+ *
+ * @param <PT>
+ *          the type of a PaperTrail implementation
+ */
 public interface PaperTrailCallback<PT extends PaperTrail> {
 
+  /**
+   * The callback of the paper trail mechanism.
+   * 
+   * @param paperTrail
+   *          a {@link PaperTrail}
+   * @param request
+   *          a {@link HttpServletRequest}
+   * @param response
+   *          a {@link HttpServletResponse}
+   */
   public void doWithPaperTrail(PT paperTrail, HttpServletRequest request,
       HttpServletResponse response);
 

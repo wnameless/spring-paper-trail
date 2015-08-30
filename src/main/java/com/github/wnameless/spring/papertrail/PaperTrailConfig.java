@@ -24,9 +24,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * 
+ * {@link PaperTrailConfig} is created for {@link EnablePaperTrail} to use. It
+ * adds the {@link PaperTrailService} to each HTTP request by using the
+ * {@link HandlerInterceptor}.
+ *
+ */
 @Configuration
 public class PaperTrailConfig extends WebMvcConfigurerAdapter {
 

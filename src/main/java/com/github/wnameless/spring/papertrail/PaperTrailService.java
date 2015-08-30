@@ -39,12 +39,16 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpMethod;
 
+/**
+ * 
+ * {@link PaperTrailService} contains the main logic about the paper trail
+ * mechanism.
+ *
+ */
 public final class PaperTrailService {
 
   private static final Logger log =
       LoggerFactory.getLogger(PaperTrailService.class);
-
-  public static final String REQUEST_URI_ATTR = "paperTrailURI";
 
   private final ApplicationContext appCtx;
   private final Class<? extends PaperTrail> paperTrailEntityClass;
@@ -100,7 +104,7 @@ public final class PaperTrailService {
     try {
       paperTrail = (PaperTrail) paperTrailEntityClass.newInstance();
     } catch (Exception e) {
-      log.error("PaperTrail entity can not be instantiated.", e);
+      log.error("PaperTrail entity can not be instantiated", e);
       throw new RuntimeException(e);
     }
     return paperTrail;

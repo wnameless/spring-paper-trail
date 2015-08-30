@@ -30,6 +30,11 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.http.HttpMethod;
 
+/**
+ * 
+ * {@link AbstractJpaPaperTrail} is a JPA implementation of {@link PaperTrail}.
+ *
+ */
 @MappedSuperclass
 public abstract class AbstractJpaPaperTrail extends AbstractPersistable<Long>
     implements PaperTrail {

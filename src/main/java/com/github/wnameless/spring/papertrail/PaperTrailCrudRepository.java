@@ -25,6 +25,17 @@ import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * 
+ * {@link PaperTrailCrudRepository} must be extended by the {@link Repository}
+ * of the {@link PaperTrail} implementation, otherwise an error will be occurred
+ * during the initialization phase.
+ *
+ * @param <PT>
+ *          the implementation type of {@link PaperTrail}
+ * @param <PK>
+ *          the type of primary key
+ */
 @NoRepositoryBean
 public interface PaperTrailCrudRepository<PT extends PaperTrail, PK extends Serializable>
     extends CrudRepository<PT, PK> {}

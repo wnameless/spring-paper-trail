@@ -26,10 +26,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+/**
+ * 
+ * {@link PaperTrailInterceptor} applies necessary paper trail to all HTTP
+ * requests.
+ *
+ */
 public class PaperTrailInterceptor extends HandlerInterceptorAdapter {
 
   private final PaperTrailService paperTrailService;
 
+  /**
+   * Creates a {@link PaperTrailInterceptor} by given {@link PaperTrailService}.
+   * 
+   * @param paperTrailService
+   *          a {@link PaperTrailService}
+   */
   public PaperTrailInterceptor(PaperTrailService paperTrailService) {
     this.paperTrailService = paperTrailService;
   }

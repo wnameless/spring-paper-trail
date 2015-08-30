@@ -22,15 +22,32 @@ package com.github.wnameless.spring.papertrail;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * 
+ * {@link AbstractMongoPaperTrail} is a MongoDB implementation of
+ * {@link PaperTrail}.
+ *
+ */
 public abstract class AbstractMongoPaperTrail extends AbstractPaperTrail {
 
   @Id
   private String id;
 
+  /**
+   * Returns the document ID.
+   * 
+   * @return a document ID
+   */
   public String getId() {
     return id;
   }
 
+  /**
+   * Sets the document ID.
+   * 
+   * @param id
+   *          a document ID
+   */
   protected void setId(String id) {
     this.id = id;
   }

@@ -24,6 +24,11 @@ import java.util.Date;
 
 import org.springframework.http.HttpMethod;
 
+/**
+ * 
+ * {@link AbstractPaperTrail} is a basic implementation for {@link PaperTrail}.
+ *
+ */
 public abstract class AbstractPaperTrail implements PaperTrail {
 
   private String userId;

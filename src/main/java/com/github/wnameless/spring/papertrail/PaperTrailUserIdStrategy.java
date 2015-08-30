@@ -20,6 +20,17 @@
  */
 package com.github.wnameless.spring.papertrail;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * 
+ * {@link PaperTrailUserIdStrategy} provides an alternative option for users to
+ * set the user ID instead of using the {@link Principal} in
+ * {@link HttpServletRequest}.
+ *
+ */
 public interface PaperTrailUserIdStrategy {
 
   public String getUserId();
