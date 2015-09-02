@@ -63,6 +63,7 @@ public abstract class AbstractJpaPaperTrail
   @Column(nullable = false)
   private int httpStatus;
 
+  @Column(nullable = false)
   private Date createdAt = new Date();
 
   /**
