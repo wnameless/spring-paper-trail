@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -82,7 +79,7 @@ public interface PaperTrail {
    * 
    * @return an URI
    */
-  public String getRequestURI();
+  public String getRequestUri();
 
   /**
    * Sets the URI of a request.
@@ -90,7 +87,7 @@ public interface PaperTrail {
    * @param requestUri
    *          an URI
    */
-  public void setRequestURI(String requestUri);
+  public void setRequestUri(String requestUri);
 
   /**
    * Returns the HTTP status of a request.

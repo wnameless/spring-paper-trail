@@ -1,2 +1,5 @@
 Version 0.1.0
 + First release
+
+Version 0.1.1
+* Change group ID from com.github.wnameless to com.github.wnameless.spring

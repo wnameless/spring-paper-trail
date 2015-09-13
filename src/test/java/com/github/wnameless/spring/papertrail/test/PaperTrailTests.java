@@ -15,19 +15,14 @@
  * the License.
  *
  */
-package com.github.wnameless.spring.papertrail.test.jpa;
+package com.github.wnameless.spring.papertrail.test;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-import com.github.wnameless.spring.papertrail.EnablePaperTrail;
+import com.github.wnameless.spring.papertrail.test.jpa.JpaPaperTrailTest;
 
-@EnablePaperTrail(JpaPaperTrail.class)
-@SpringBootApplication
-public class JpaApplication {
-
-  public static void main(String[] args) {
-    SpringApplication.run(JpaApplication.class, args);
-  }
-
-}
+@RunWith(Suite.class)
+@SuiteClasses({ EntityTest.class, JpaPaperTrailTest.class })
+public class PaperTrailTests {}

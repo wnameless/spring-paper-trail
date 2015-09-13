@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -18,7 +15,6 @@
  * the License.
  *
  */
-
 package com.github.wnameless.spring.papertrail;
 
 import static java.util.Collections.unmodifiableList;
@@ -80,7 +76,7 @@ public final class PaperTrailService {
         : userIdStrategy.getUserId());
     paperTrail.setRemoteAddr(request.getRemoteAddr());
     paperTrail.setHttpMethod(HttpMethod.valueOf(request.getMethod()));
-    paperTrail.setRequestURI(request.getRequestURI());
+    paperTrail.setRequestUri(request.getRequestURI());
     paperTrail.setHttpStatus(response.getStatus());
     paperTrailRepo.save(paperTrail);
 

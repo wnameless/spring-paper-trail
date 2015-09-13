@@ -18,9 +18,9 @@ Log essential information about any stateful request which includes:
 ##Maven Repo
 ```xml
 <dependency>
-	<groupId>com.github.wnameless</groupId>
+	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 </dependency>
 ```
 

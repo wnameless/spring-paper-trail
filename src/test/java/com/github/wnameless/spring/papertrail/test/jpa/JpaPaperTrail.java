@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -28,5 +25,10 @@ import com.github.wnameless.spring.papertrail.AbstractJpaPaperTrail;
 public class JpaPaperTrail extends AbstractJpaPaperTrail {
 
   private static final long serialVersionUID = 1L;
+
+  @Override
+  public void setId(Long id) {
+    super.setId(id);
+  }
 
 }

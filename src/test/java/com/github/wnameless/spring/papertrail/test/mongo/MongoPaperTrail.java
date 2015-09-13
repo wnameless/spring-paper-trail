@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -25,4 +22,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.github.wnameless.spring.papertrail.AbstractMongoPaperTrail;
 
 @Document
-public class MongoPaperTrail extends AbstractMongoPaperTrail {}
+public class MongoPaperTrail extends AbstractMongoPaperTrail {
+
+  @Override
+  public void setId(String id) {
+    super.setId(id);
+  }
+
+}

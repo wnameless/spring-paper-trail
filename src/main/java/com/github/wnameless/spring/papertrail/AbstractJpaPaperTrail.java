@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -116,12 +113,12 @@ public abstract class AbstractJpaPaperTrail
   }
 
   @Override
-  public String getRequestURI() {
+  public String getRequestUri() {
     return requestUri;
   }
 
   @Override
-  public void setRequestURI(String requestUri) {
+  public void setRequestUri(String requestUri) {
     this.requestUri = requestUri;
   }
 
@@ -146,14 +143,14 @@ public abstract class AbstractJpaPaperTrail
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     int hashCode = 27;
     hashCode += null == getId() ? 0 : getId().hashCode() ^ 31;
     return hashCode;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     if (o == this) return true;
     if (o == null) return false;
     if (!getClass().equals(o.getClass())) return false;
@@ -165,7 +162,7 @@ public abstract class AbstractJpaPaperTrail
   public String toString() {
     return getClass().getSimpleName() + "{userId=" + getUserId()
         + ", remoteAddr=" + getRemoteAddr() + ", httpMethod=" + getHttpMethod()
-        + ", requestUri=" + getRequestURI() + ", httpStatus=" + getHttpStatus()
+        + ", requestUri=" + getRequestUri() + ", httpStatus=" + getHttpStatus()
         + ", createdAt=" + getCreatedAt() + "}";
   }
 

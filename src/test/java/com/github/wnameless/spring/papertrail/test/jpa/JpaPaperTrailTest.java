@@ -1,7 +1,4 @@
-/**
- *
- * @author Wei-Ming Wu
- *
+/*
  *
  * Copyright 2015 Wei-Ming Wu
  *
@@ -70,7 +67,7 @@ public class JpaPaperTrailTest {
     assertEquals("test", trail.getUserId());
     assertEquals("127.0.0.1", trail.getRemoteAddr());
     assertEquals("POST", trail.getHttpMethod().toString());
-    assertEquals("/post", trail.getRequestURI());
+    assertEquals("/post", trail.getRequestUri());
     assertEquals(201, trail.getHttpStatus());
     assertNotNull(trail.getCreatedAt());
 
