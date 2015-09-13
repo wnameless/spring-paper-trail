@@ -4,3 +4,4 @@ Version 0.1.0
 Version 0.2.0
 * Change group ID from com.github.wnameless to com.github.wnameless.spring
 * Change PaperTrailUserIdStrategy interface by adding the HttpServletRequest to the input
+* Change PaperTrail#getRequestURI to PaperTrail#getRequestUri
