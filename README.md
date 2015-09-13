@@ -20,7 +20,7 @@ Log essential information about any stateful request which includes:
 <dependency>
 	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.1.1</version>
+	<version>0.2.0</version>
 </dependency>
 ```
 
@@ -86,7 +86,7 @@ but you can override this mechanism by providing a PaperTrailUserIdStrategy bean
 ```java
 @Bean
 public PaperTrailUserIdStrategy paperTrailUserIdStrategy() {
-  return new PaperTrailUserIdStrategy() {
+  return new PaperTrailUserIdStrategy(HttpServletRequest request) {
     public String getUserId() {...}
   };
 }
@@ -103,5 +103,6 @@ public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
   };
 }
 // you can create mutilple callbacks to meet your needs
+// Notice: Callbacks are performed after PaperTrail entity saved
 ```
 
