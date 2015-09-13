@@ -17,6 +17,8 @@
  */
 package com.github.wnameless.spring.papertrail.test.mongo;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,7 +32,7 @@ public class MongoPaperTrailConfig {
     return new PaperTrailUserIdStrategy() {
 
       @Override
-      public String getUserId() {
+      public String getUserId(HttpServletRequest request) {
         return "ABC";
       }
 

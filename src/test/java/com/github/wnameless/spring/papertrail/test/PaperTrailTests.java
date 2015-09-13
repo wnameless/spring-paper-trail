@@ -21,8 +21,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.github.wnameless.spring.papertrail.test.jpa.JpaPaperTrailTest;
+import com.github.wnameless.spring.papertrail.test.jpa.JpaPaperTrailGetTest;
+import com.github.wnameless.spring.papertrail.test.jpa.JpaPaperTrailPostTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ EntityTest.class, JpaPaperTrailTest.class })
+@SuiteClasses({ EntityTest.class, JpaPaperTrailPostTest.class,
+    JpaPaperTrailGetTest.class })
 public class PaperTrailTests {}

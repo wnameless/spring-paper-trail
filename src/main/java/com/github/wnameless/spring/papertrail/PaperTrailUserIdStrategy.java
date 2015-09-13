@@ -30,6 +30,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface PaperTrailUserIdStrategy {
 
-  public String getUserId();
+  public String getUserId(HttpServletRequest request);
 
 }

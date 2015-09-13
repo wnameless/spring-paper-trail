@@ -73,7 +73,7 @@ public final class PaperTrailService {
 
     PaperTrail paperTrail = newPaperTrail();
     paperTrail.setUserId(userIdStrategy == null ? getUserTypedId(request)
-        : userIdStrategy.getUserId());
+        : userIdStrategy.getUserId(request));
     paperTrail.setRemoteAddr(request.getRemoteAddr());
     paperTrail.setHttpMethod(HttpMethod.valueOf(request.getMethod()));
     paperTrail.setRequestUri(request.getRequestURI());

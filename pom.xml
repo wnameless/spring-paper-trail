@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<name>spring-paper-trail</name>
 	<description>Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail</description>

@@ -17,14 +17,10 @@
  */
 package com.github.wnameless.spring.papertrail.test.jpa;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
-import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,7 @@ import com.google.common.io.BaseEncoding;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = JpaApplication.class)
 @WebIntegrationTest
-public class JpaPaperTrailTest {
+public class JpaPaperTrailGetTest {
 
   RestTemplate template = new RestTemplate();
   String host = "http://localhost:8080";
@@ -49,29 +45,15 @@ public class JpaPaperTrailTest {
   @Autowired
   PaperTrailJpaRepository repo;
 
-  List<String> testStringList = JpaPaperTrailConfig.testStringList;
-
-  @Before
-  public void setUp() throws Exception {
-    testStringList.clear();
-  }
-
   @Test
-  public void testPost() throws Exception {
-    RequestEntity<Void> req = RequestEntity.post(new URI(host + "/post"))
+  public void testGet() throws Exception {
+    long records = repo.count();
+
+    RequestEntity<Void> req = RequestEntity.get(new URI(host + "/get"))
         .header("Authorization", encodedAuth).build();
     template.exchange(req, String.class);
 
-    assertEquals(1, repo.count());
-    JpaPaperTrail trail = repo.findAll().iterator().next();
-    assertEquals("test", trail.getUserId());
-    assertEquals("127.0.0.1", trail.getRemoteAddr());
-    assertEquals("POST", trail.getHttpMethod().toString());
-    assertEquals("/post", trail.getRequestUri());
-    assertEquals(201, trail.getHttpStatus());
-    assertNotNull(trail.getCreatedAt());
-
-    assertEquals(newArrayList("ysysysys", "hahahaha"), testStringList);
+    assertEquals(records, repo.count());
   }
 
 }
