@@ -1,6 +1,6 @@
 /*
  *
- * Copyright 2015 Wei-Ming Wu
+ * Copyright 2016 Wei-Ming Wu
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,14 +17,10 @@
  */
 package com.github.wnameless.spring.papertrail.test.jpa;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
-import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,7 @@ import com.google.common.io.BaseEncoding;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = JpaApplication.class)
 @WebIntegrationTest
-public class JpaPaperTrailPostTest {
+public class AroundPaperTrailCallbackTest {
 
   RestTemplate template = new RestTemplate();
   String host = "http://localhost:8080";
@@ -49,31 +45,15 @@ public class JpaPaperTrailPostTest {
   @Autowired
   PaperTrailJpaRepository repo;
 
-  List<String> testStringList = JpaPaperTrailConfig.testStringList;
-
-  @Before
-  public void setUp() throws Exception {
-    testStringList.clear();
-  }
-
   @Test
-  public void testPost() throws Exception {
+  public void testAround() throws Exception {
     long records = repo.count();
 
-    RequestEntity<Void> req = RequestEntity.post(new URI(host + "/post"))
+    RequestEntity<Void> req = RequestEntity.post(new URI(host + "/around"))
         .header("Authorization", encodedAuth).build();
     template.exchange(req, String.class);
 
-    JpaPaperTrail trail = repo.findAll().iterator().next();
-    assertEquals("test", trail.getUserId());
-    assertEquals("127.0.0.1", trail.getRemoteAddr());
-    assertEquals("POST", trail.getHttpMethod().toString());
-    assertEquals("/post", trail.getRequestUri());
-    assertEquals(201, trail.getHttpStatus());
-    assertNotNull(trail.getCreatedAt());
-
-    assertEquals(records + 1, repo.count());
-    assertEquals(newArrayList("ysysysys", "hahahaha"), testStringList);
+    assertEquals(records, repo.count());
   }
 
 }

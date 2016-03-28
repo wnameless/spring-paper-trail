@@ -27,12 +27,32 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.github.wnameless.spring.papertrail.AroundPaperTrailCallback;
 import com.github.wnameless.spring.papertrail.PaperTrailCallback;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class JpaPaperTrailConfig {
 
   public static final List<String> testStringList = newArrayList();
+
+  @Bean
+  public AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository> aroundTrailCallback() {
+    return new AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository>() {
+
+      @Override
+      public void aroundPaperTrail(PaperTrailJpaRepository paperTrailRepo,
+          JpaPaperTrail paperTrail, HttpServletRequest request,
+          HttpServletResponse response) {
+        if (paperTrail.getRequestUri().equals("/around")) {
+          // Do nothing
+        } else {
+          paperTrailRepo.save(paperTrail);
+        }
+      }
+
+    };
+  }
 
   @Bean
   public PaperTrailCallback<JpaPaperTrail> paperTrailCallback1() {

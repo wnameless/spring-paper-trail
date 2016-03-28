@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class JpaTestController {
 
-  @RequestMapping("/get")
+  @RequestMapping(value = "/get", method = RequestMethod.GET)
   @ResponseBody
   String get() {
     return "get";
@@ -38,6 +38,12 @@ public class JpaTestController {
   @ResponseStatus(HttpStatus.CREATED)
   String post() {
     return "post";
+  }
+
+  @RequestMapping(value = "/around", method = RequestMethod.POST)
+  @ResponseBody
+  String around() {
+    return "around";
   }
 
 }

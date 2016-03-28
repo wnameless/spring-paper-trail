@@ -1,6 +1,6 @@
 /*
  *
- * Copyright 2015 Wei-Ming Wu
+ * Copyright 2016 Wei-Ming Wu
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,19 +22,18 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * {@link PaperTrailCallback} provides an alternative way for users to perform
- * any operation they want with the {@link PaperTrail} which is created during
- * the paper trail mechanism.
+ * {@link BeforePaperTrailCallback} provides an alternative way for users to
+ * perform any operation they want with the {@link PaperTrail} which is created
+ * during the paper trail mechanism AFTER this {@link PaperTrail} saved.
  *
  * @param <PT>
  *          the type of a PaperTrail implementation
- * @deprecated Since 0.3.0, please use {@link AfterPaperTrailCallback} instead
  */
-@Deprecated
-public interface PaperTrailCallback<PT extends PaperTrail> {
+public interface AfterPaperTrailCallback<PT extends PaperTrail> {
 
   /**
-   * The callback of the paper trail mechanism.
+   * The callback of the paper trail mechanism BEFORE this {@link PaperTrail}
+   * saved.
    * 
    * @param paperTrail
    *          a {@link PaperTrail}
@@ -43,7 +42,7 @@ public interface PaperTrailCallback<PT extends PaperTrail> {
    * @param response
    *          a {@link HttpServletResponse}
    */
-  public void doWithPaperTrail(PT paperTrail, HttpServletRequest request,
+  public void afterPaperTrail(PT paperTrail, HttpServletRequest request,
       HttpServletResponse response);
 
 }

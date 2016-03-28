@@ -26,13 +26,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpMethod;
 
 /**
@@ -41,7 +41,7 @@ import org.springframework.http.HttpMethod;
  * mechanism.
  *
  */
-public final class PaperTrailService {
+public class PaperTrailService {
 
   private static final Logger log =
       LoggerFactory.getLogger(PaperTrailService.class);
@@ -49,37 +49,73 @@ public final class PaperTrailService {
   private final ApplicationContext appCtx;
   private final Class<? extends PaperTrail> paperTrailEntityClass;
   private final List<HttpMethod> targetMethods;
-  private final CrudRepository<? super PaperTrail, ?> paperTrailRepo;
+  private final PaperTrailCrudRepository<? super PaperTrail, ?> paperTrailRepo;
+
   @SuppressWarnings("rawtypes")
+  private final Map<String, BeforePaperTrailCallback> beforeCallbacks;
+  @SuppressWarnings("rawtypes")
+  private final Map<String, AfterPaperTrailCallback> afterCallbacks;
+  @SuppressWarnings({ "rawtypes", "deprecation" })
   private final Map<String, PaperTrailCallback> callbacks;
 
+  @SuppressWarnings("rawtypes")
+  @Autowired(required = false)
+  private AroundPaperTrailCallback aroundCallback;
   @Autowired(required = false)
   private PaperTrailUserIdStrategy userIdStrategy;
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "deprecation" })
   public PaperTrailService(ApplicationContext appCtx) {
     this.appCtx = appCtx;
     EnablePaperTrail ept = getEnablePaperTrailAnno();
     targetMethods = unmodifiableList(Arrays.asList(ept.targetMethods()));
     paperTrailEntityClass = ept.value();
     paperTrailRepo = appCtx.getBean(PaperTrailCrudRepository.class);
+
+    beforeCallbacks = appCtx.getBeansOfType(BeforePaperTrailCallback.class);
+    afterCallbacks = appCtx.getBeansOfType(AfterPaperTrailCallback.class);
     callbacks = appCtx.getBeansOfType(PaperTrailCallback.class);
   }
 
-  @SuppressWarnings("unchecked")
+  @Transactional
+  @SuppressWarnings({ "unchecked", "deprecation" })
   public void audit(HttpServletRequest request, HttpServletResponse response) {
     if (!targetMethods.contains(HttpMethod.valueOf(request.getMethod())))
       return;
 
-    PaperTrail paperTrail = newPaperTrail();
+    final PaperTrail paperTrail = newPaperTrail();
     paperTrail.setUserId(userIdStrategy == null ? getUserTypedId(request)
         : userIdStrategy.getUserId(request));
     paperTrail.setRemoteAddr(request.getRemoteAddr());
     paperTrail.setHttpMethod(HttpMethod.valueOf(request.getMethod()));
     paperTrail.setRequestUri(request.getRequestURI());
     paperTrail.setHttpStatus(response.getStatus());
-    paperTrailRepo.save(paperTrail);
 
+    // Before callbacks
+    if (!beforeCallbacks.isEmpty()) {
+      for (@SuppressWarnings("rawtypes")
+      BeforePaperTrailCallback callback : beforeCallbacks.values()) {
+        callback.beforePaperTrail(paperTrail, request, response);
+      }
+    }
+
+    // Around callback
+    if (aroundCallback == null) {
+      paperTrailRepo.save(paperTrail);
+    } else {
+      aroundCallback.aroundPaperTrail(paperTrailRepo, paperTrail, request,
+          response);
+    }
+
+    // After callbacks
+    if (!afterCallbacks.isEmpty()) {
+      for (@SuppressWarnings("rawtypes")
+      AfterPaperTrailCallback callback : afterCallbacks.values()) {
+        callback.afterPaperTrail(paperTrail, request, response);
+      }
+    }
+
+    // Legacy after callbacks
     if (!callbacks.isEmpty()) {
       for (@SuppressWarnings("rawtypes")
       PaperTrailCallback callback : callbacks.values()) {

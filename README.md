@@ -20,7 +20,7 @@ Log essential information about any stateful request which includes:
 <dependency>
 	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 </dependency>
 ```
 
@@ -96,13 +96,20 @@ If you wish to use the paper trail information to do more things,<br/>
 there are callbacks you can use:
 ```java
 @Bean
-public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
-  return new PaperTrailCallback<JpaPaperTrail>() {
-    public void doWithPaperTrail(JpaPaperTrail paperTrail,
+public PaperTrailCallback<JpaPaperTrail> afterPaperTrailCallback() {
+  return new AfterPaperTrailCallback<JpaPaperTrail>() {
+    public void afterPaperTrail(JpaPaperTrail paperTrail,
+        HttpServletRequest request, HttpServletResponse response) {...}
+  };
+}
+
+@Bean
+public PaperTrailCallback<JpaPaperTrail> beforePaperTrailCallback() {
+  return new BeforePaperTrailCallback<JpaPaperTrail>() {
+    public void beforePaperTrail(JpaPaperTrail paperTrail,
         HttpServletRequest request, HttpServletResponse response) {...}
   };
 }
 // you can create mutilple callbacks to meet your needs
-// Notice: Callbacks are performed after PaperTrail entity saved
 ```
 
