@@ -58,13 +58,11 @@ public class JpaPaperTrailPostTest {
 
   @Test
   public void testPost() throws Exception {
-    long records = repo.count();
-
     RequestEntity<Void> req = RequestEntity.post(new URI(host + "/post"))
         .header("Authorization", encodedAuth).build();
     template.exchange(req, String.class);
 
-    JpaPaperTrail trail = repo.findAll().iterator().next();
+    JpaPaperTrail trail = repo.findByRequestUri("/post");
     assertEquals("test", trail.getUserId());
     assertEquals("127.0.0.1", trail.getRemoteAddr());
     assertEquals("POST", trail.getHttpMethod().toString());
@@ -72,7 +70,6 @@ public class JpaPaperTrailPostTest {
     assertEquals(201, trail.getHttpStatus());
     assertNotNull(trail.getCreatedAt());
 
-    assertEquals(records + 1, repo.count());
     assertEquals(newArrayList("ysysysys", "hahahaha"), testStringList);
   }
 

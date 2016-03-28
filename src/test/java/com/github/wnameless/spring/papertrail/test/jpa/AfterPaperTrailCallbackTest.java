@@ -36,7 +36,7 @@ import com.google.common.io.BaseEncoding;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = JpaApplication.class)
 @WebIntegrationTest
-public class AroundPaperTrailCallbackTest {
+public class AfterPaperTrailCallbackTest {
 
   RestTemplate template = new RestTemplate();
   String host = "http://localhost:8080";
@@ -47,16 +47,16 @@ public class AroundPaperTrailCallbackTest {
   PaperTrailJpaRepository repo;
 
   @Test
-  public void testAround() throws Exception {
-    RequestEntity<Void> req = RequestEntity.post(new URI(host + "/around"))
+  public void testAfter() throws Exception {
+    RequestEntity<Void> req = RequestEntity.post(new URI(host + "/after"))
         .header("Authorization", encodedAuth).build();
     template.exchange(req, String.class);
 
-    JpaPaperTrail trail = repo.findByRequestUri("/around");
-    assertEquals("AROUND", trail.getUserId());
+    JpaPaperTrail trail = repo.findByRequestUri("/after");
+    assertEquals("AFTER", trail.getUserId());
     assertEquals("127.0.0.1", trail.getRemoteAddr());
     assertEquals("POST", trail.getHttpMethod().toString());
-    assertEquals("/around", trail.getRequestUri());
+    assertEquals("/after", trail.getRequestUri());
     assertEquals(201, trail.getHttpStatus());
     assertNotNull(trail.getCreatedAt());
   }

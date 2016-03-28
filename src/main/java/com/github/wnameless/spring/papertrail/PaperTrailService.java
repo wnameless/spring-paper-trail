@@ -52,15 +52,20 @@ public class PaperTrailService {
   private final PaperTrailCrudRepository<? super PaperTrail, ?> paperTrailRepo;
 
   @SuppressWarnings("rawtypes")
-  private final Map<String, BeforePaperTrailCallback> beforeCallbacks;
+  @Autowired(required = false)
+  private BeforePaperTrailCallback beforeCallback;
+
   @SuppressWarnings("rawtypes")
-  private final Map<String, AfterPaperTrailCallback> afterCallbacks;
-  @SuppressWarnings({ "rawtypes", "deprecation" })
-  private final Map<String, PaperTrailCallback> callbacks;
+  @Autowired(required = false)
+  private AfterPaperTrailCallback afterCallback;
 
   @SuppressWarnings("rawtypes")
   @Autowired(required = false)
   private AroundPaperTrailCallback aroundCallback;
+
+  @SuppressWarnings({ "rawtypes", "deprecation" })
+  private final Map<String, PaperTrailCallback> callbacks;
+
   @Autowired(required = false)
   private PaperTrailUserIdStrategy userIdStrategy;
 
@@ -72,8 +77,6 @@ public class PaperTrailService {
     paperTrailEntityClass = ept.value();
     paperTrailRepo = appCtx.getBean(PaperTrailCrudRepository.class);
 
-    beforeCallbacks = appCtx.getBeansOfType(BeforePaperTrailCallback.class);
-    afterCallbacks = appCtx.getBeansOfType(AfterPaperTrailCallback.class);
     callbacks = appCtx.getBeansOfType(PaperTrailCallback.class);
   }
 
@@ -92,27 +95,21 @@ public class PaperTrailService {
     paperTrail.setHttpStatus(response.getStatus());
 
     // Before callbacks
-    if (!beforeCallbacks.isEmpty()) {
-      for (@SuppressWarnings("rawtypes")
-      BeforePaperTrailCallback callback : beforeCallbacks.values()) {
-        callback.beforePaperTrail(paperTrail, request, response);
-      }
+    if (beforeCallback != null) {
+      beforeCallback.beforePaperTrail(paperTrail, request, response);
     }
 
     // Around callback
-    if (aroundCallback == null) {
-      paperTrailRepo.save(paperTrail);
-    } else {
+    if (aroundCallback != null) {
       aroundCallback.aroundPaperTrail(paperTrailRepo, paperTrail, request,
           response);
+    } else {
+      paperTrailRepo.save(paperTrail);
     }
 
     // After callbacks
-    if (!afterCallbacks.isEmpty()) {
-      for (@SuppressWarnings("rawtypes")
-      AfterPaperTrailCallback callback : afterCallbacks.values()) {
-        callback.afterPaperTrail(paperTrail, request, response);
-      }
+    if (afterCallback != null) {
+      afterCallback.afterPaperTrail(paperTrail, request, response);
     }
 
     // Legacy after callbacks

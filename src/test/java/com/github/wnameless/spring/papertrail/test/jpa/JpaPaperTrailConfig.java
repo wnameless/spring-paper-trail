@@ -24,10 +24,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.github.wnameless.spring.papertrail.AfterPaperTrailCallback;
 import com.github.wnameless.spring.papertrail.AroundPaperTrailCallback;
+import com.github.wnameless.spring.papertrail.BeforePaperTrailCallback;
 import com.github.wnameless.spring.papertrail.PaperTrailCallback;
 
 @SuppressWarnings("deprecation")
@@ -35,6 +38,9 @@ import com.github.wnameless.spring.papertrail.PaperTrailCallback;
 public class JpaPaperTrailConfig {
 
   public static final List<String> testStringList = newArrayList();
+
+  @Autowired
+  PaperTrailJpaRepository paperTrailRepo;
 
   @Bean
   public AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository> aroundTrailCallback() {
@@ -45,10 +51,41 @@ public class JpaPaperTrailConfig {
           JpaPaperTrail paperTrail, HttpServletRequest request,
           HttpServletResponse response) {
         if (paperTrail.getRequestUri().equals("/around")) {
-          // Do nothing
+          paperTrail.setUserId("AROUND");
+          paperTrailRepo.save(paperTrail);
         } else {
           paperTrailRepo.save(paperTrail);
         }
+      }
+
+    };
+  }
+
+  @Bean
+  public BeforePaperTrailCallback<JpaPaperTrail> beforePaperTrailCallback() {
+    return new BeforePaperTrailCallback<JpaPaperTrail>() {
+
+      @Override
+      public void beforePaperTrail(JpaPaperTrail paperTrail,
+          HttpServletRequest request, HttpServletResponse response) {
+        if (paperTrail.getRequestUri().equals("/before"))
+          paperTrail.setUserId("BEFORE");
+      }
+
+    };
+  }
+
+  @Bean
+  public AfterPaperTrailCallback<JpaPaperTrail> afterPaperTrailCallback() {
+    return new AfterPaperTrailCallback<JpaPaperTrail>() {
+
+      @Override
+      public void afterPaperTrail(JpaPaperTrail paperTrail,
+          HttpServletRequest request, HttpServletResponse response) {
+        if (paperTrail.getRequestUri().equals("/after"))
+          paperTrail.setUserId("AFTER");
+
+        paperTrailRepo.save(paperTrail);
       }
 
     };

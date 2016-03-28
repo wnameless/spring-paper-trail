@@ -42,8 +42,23 @@ public class JpaTestController {
 
   @RequestMapping(value = "/around", method = RequestMethod.POST)
   @ResponseBody
+  @ResponseStatus(HttpStatus.CREATED)
   String around() {
     return "around";
+  }
+
+  @RequestMapping(value = "/before", method = RequestMethod.POST)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.CREATED)
+  String before() {
+    return "before";
+  }
+
+  @RequestMapping(value = "/after", method = RequestMethod.POST)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.CREATED)
+  String after() {
+    return "after";
   }
 
 }

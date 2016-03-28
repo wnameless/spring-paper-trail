@@ -20,4 +20,10 @@ package com.github.wnameless.spring.papertrail.test.jpa;
 import com.github.wnameless.spring.papertrail.PaperTrailCrudRepository;
 
 public interface PaperTrailJpaRepository
-    extends PaperTrailCrudRepository<JpaPaperTrail, Long> {}
+    extends PaperTrailCrudRepository<JpaPaperTrail, Long> {
+
+  public JpaPaperTrail findByRequestUri(String requestUri);
+
+  public JpaPaperTrail findByUserId(String userId);
+
+}
