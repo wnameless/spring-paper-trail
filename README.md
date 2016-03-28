@@ -96,7 +96,15 @@ If you wish to use the paper trail information to do more things,<br/>
 there are callbacks you can use:
 ```java
 @Bean
-public PaperTrailCallback<JpaPaperTrail> afterPaperTrailCallback() {
+public BeforePaperTrailCallback<JpaPaperTrail> beforePaperTrailCallback() {
+  return new beforePaperTrailCallback<JpaPaperTrail>() {
+    public void afterPaperTrail(JpaPaperTrail paperTrail,
+        HttpServletRequest request, HttpServletResponse response) {...}
+  };
+}
+
+@Bean
+public AfterPaperTrailCallback<JpaPaperTrail> afterPaperTrailCallback() {
   return new AfterPaperTrailCallback<JpaPaperTrail>() {
     public void afterPaperTrail(JpaPaperTrail paperTrail,
         HttpServletRequest request, HttpServletResponse response) {...}
@@ -104,12 +112,25 @@ public PaperTrailCallback<JpaPaperTrail> afterPaperTrailCallback() {
 }
 
 @Bean
-public PaperTrailCallback<JpaPaperTrail> beforePaperTrailCallback() {
-  return new BeforePaperTrailCallback<JpaPaperTrail>() {
-    public void beforePaperTrail(JpaPaperTrail paperTrail,
+public AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository> aroundTrailCallback() {
+  return new AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository>() {
+      public void aroundPaperTrail(PaperTrailJpaRepository paperTrailRepo,
+          JpaPaperTrail paperTrail, HttpServletRequest request,
+          HttpServletResponse response) {
+          ...
+          paperTrailRepo.save(paperTrail);
+          ...
+      }
+  };
+}
+
+// It's deprecated since v0.3.0
+@Bean
+public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
+  return new PaperTrailCallback<JpaPaperTrail>() {
+    public void doWithPaperTrail(JpaPaperTrail paperTrail,
         HttpServletRequest request, HttpServletResponse response) {...}
   };
 }
-// you can create mutilple callbacks to meet your needs
 ```
 
