@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.wnameless.spring/spring-paper-trail/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.wnameless.spring/spring-paper-trail)
+
 spring-paper-trail
 =============
 Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail
