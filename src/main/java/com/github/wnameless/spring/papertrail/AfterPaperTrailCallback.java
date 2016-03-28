@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * {@link BeforePaperTrailCallback} provides an alternative way for users to
+ * {@link AfterPaperTrailCallback} provides an alternative way for users to
  * perform any operation they want with the {@link PaperTrail} which is created
  * during the paper trail mechanism AFTER this {@link PaperTrail} saved.
  *
