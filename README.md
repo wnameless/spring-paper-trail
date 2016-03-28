@@ -4,6 +4,7 @@ Add automatic audit trail to all stateful HTTP requests by the annotation @Enabl
 
 ##Purpose
 Log essential information about any stateful request which includes:
+
 1. User ID: the user name<br/>
 2. Remote Address: the user IP address<br/>
 3. HTTP Method: POST, DELETE, PUT or PATCH<br/>
@@ -98,7 +99,7 @@ there are callbacks you can use:
 @Bean
 public BeforePaperTrailCallback<JpaPaperTrail> beforePaperTrailCallback() {
   return new beforePaperTrailCallback<JpaPaperTrail>() {
-    public void afterPaperTrail(JpaPaperTrail paperTrail,
+    public void beforePaperTrail(JpaPaperTrail paperTrail,
         HttpServletRequest request, HttpServletResponse response) {...}
   };
 }
