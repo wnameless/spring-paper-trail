@@ -31,9 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import com.github.wnameless.spring.papertrail.AfterPaperTrailCallback;
 import com.github.wnameless.spring.papertrail.AroundPaperTrailCallback;
 import com.github.wnameless.spring.papertrail.BeforePaperTrailCallback;
-import com.github.wnameless.spring.papertrail.PaperTrailCallback;
 
-@SuppressWarnings("deprecation")
 @Configuration
 public class JpaPaperTrailConfig {
 
@@ -86,32 +84,6 @@ public class JpaPaperTrailConfig {
           paperTrail.setUserId("AFTER");
 
         paperTrailRepo.save(paperTrail);
-      }
-
-    };
-  }
-
-  @Bean
-  public PaperTrailCallback<JpaPaperTrail> paperTrailCallback1() {
-    return new PaperTrailCallback<JpaPaperTrail>() {
-
-      @Override
-      public void doWithPaperTrail(JpaPaperTrail paperTrail,
-          HttpServletRequest request, HttpServletResponse response) {
-        testStringList.add("ysysysys");
-      }
-
-    };
-  }
-
-  @Bean
-  public PaperTrailCallback<JpaPaperTrail> paperTrailCallback2() {
-    return new PaperTrailCallback<JpaPaperTrail>() {
-
-      @Override
-      public void doWithPaperTrail(JpaPaperTrail paperTrail,
-          HttpServletRequest request, HttpServletResponse response) {
-        testStringList.add("hahahaha");
       }
 
     };

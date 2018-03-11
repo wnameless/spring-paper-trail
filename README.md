@@ -23,7 +23,7 @@ Log essential information about any stateful request which includes:
 <dependency>
 	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.3.0</version>
+	<version>0.4.0</version>
 </dependency>
 ```
 
@@ -126,14 +126,4 @@ public AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository> aroundTr
       }
   };
 }
-
-// It's deprecated since v0.3.0
-@Bean
-public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
-  return new PaperTrailCallback<JpaPaperTrail>() {
-    public void doWithPaperTrail(JpaPaperTrail paperTrail,
-        HttpServletRequest request, HttpServletResponse response) {...}
-  };
-}
 ```
-

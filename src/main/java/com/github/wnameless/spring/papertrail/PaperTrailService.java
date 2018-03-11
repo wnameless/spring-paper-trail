@@ -22,7 +22,6 @@ import static java.util.Collections.unmodifiableList;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,25 +62,20 @@ public class PaperTrailService {
   @Autowired(required = false)
   private AroundPaperTrailCallback aroundCallback;
 
-  @SuppressWarnings({ "rawtypes", "deprecation" })
-  private final Map<String, PaperTrailCallback> callbacks;
-
   @Autowired(required = false)
   private PaperTrailUserIdStrategy userIdStrategy;
 
-  @SuppressWarnings({ "unchecked", "deprecation" })
+  @SuppressWarnings("unchecked")
   public PaperTrailService(ApplicationContext appCtx) {
     this.appCtx = appCtx;
     EnablePaperTrail ept = getEnablePaperTrailAnno();
     targetMethods = unmodifiableList(Arrays.asList(ept.targetMethods()));
     paperTrailEntityClass = ept.value();
     paperTrailRepo = appCtx.getBean(PaperTrailCrudRepository.class);
-
-    callbacks = appCtx.getBeansOfType(PaperTrailCallback.class);
   }
 
   @Transactional
-  @SuppressWarnings({ "unchecked", "deprecation" })
+  @SuppressWarnings("unchecked")
   public void audit(HttpServletRequest request, HttpServletResponse response) {
     if (!targetMethods.contains(HttpMethod.valueOf(request.getMethod())))
       return;
@@ -110,14 +104,6 @@ public class PaperTrailService {
     // After callbacks
     if (afterCallback != null) {
       afterCallback.afterPaperTrail(paperTrail, request, response);
-    }
-
-    // Legacy after callbacks
-    if (!callbacks.isEmpty()) {
-      for (@SuppressWarnings("rawtypes")
-      PaperTrailCallback callback : callbacks.values()) {
-        callback.doWithPaperTrail(paperTrail, request, response);
-      }
     }
   }
 
