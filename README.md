@@ -4,7 +4,7 @@ spring-paper-trail
 =============
 Add automatic audit trail to all stateful HTTP requests by the annotation @EnablePaperTrail
 
-##Purpose
+## Purpose
 Log essential information about any stateful request which includes:
 
 1. User ID: the user name<br/>
@@ -14,11 +14,11 @@ Log essential information about any stateful request which includes:
 5. HTTP status: status code, ex: 201, 404<br/>
 6. Timestamp: the date and time of this paper trail
 
-##Features
+## Features
 1. Supports all kinds of databases
 2. Provides callbacks for sophisticated operations
 
-##Maven Repo
+## Maven Repo
 ```xml
 <dependency>
 	<groupId>com.github.wnameless.spring</groupId>
@@ -28,7 +28,7 @@ Log essential information about any stateful request which includes:
 ```
 
 
-#Quick Start
+# Quick Start
 
 Add @EnablePaperTrail to enable paper trail,<br/>
 JpaPaperTrail.class is an entity class which implements the PaperTrail interface
@@ -77,7 +77,7 @@ public interface PaperTrailMongoRepository
 
 That's all you need!
 
-##Advanced Usage
+## Advanced Usage
 By default, spring-paper-trail only log the POST, DELETE, PUT and PATCH methods,<br/>
 however you can change its behavior by doing this:
 ```java
