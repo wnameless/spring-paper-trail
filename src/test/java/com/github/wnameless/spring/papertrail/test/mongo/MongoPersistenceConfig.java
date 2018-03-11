@@ -25,17 +25,32 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 
-import cz.jirutka.spring.embedmongo.EmbeddedMongoBuilder;
+import de.flapdoodle.embed.mongo.MongodExecutable;
+import de.flapdoodle.embed.mongo.MongodStarter;
+import de.flapdoodle.embed.mongo.config.IMongodConfig;
+import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
+import de.flapdoodle.embed.mongo.config.Net;
+import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.runtime.Network;
 
 @Configuration
 public class MongoPersistenceConfig {
 
+  MongodStarter starter = MongodStarter.getDefaultInstance();
+
   @Bean(destroyMethod = "close")
-  public Mongo mongo() throws IOException {
-    return new EmbeddedMongoBuilder().version("3.0.4").bindIp("127.0.0.1")
-        .port(12345).build();
+  public MongoClient mongo() throws IOException {
+    IMongodConfig mongodConfig = new MongodConfigBuilder()
+        .version(Version.Main.PRODUCTION)
+        .net(new Net("127.0.0.1", 12345, Network.localhostIsIPv6())).build();
+
+    MongodExecutable mongodExecutable = starter.prepare(mongodConfig);
+    mongodExecutable.start();
+    MongoClient mongo = new MongoClient("127.0.0.1", 12345);
+
+    return mongo;
   }
 
   @Bean

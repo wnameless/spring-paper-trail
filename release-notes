@@ -9,3 +9,6 @@ Version 0.2.0
 Version 0.3.0
 + Add BeforePaperTrailCallback, AfterPaperTrailCallback & AroundPaperTrailCallback
 * Deprecate PaperTrailCallback
+
+Version 0.4.0
+* Upgrade to Spring Boot v2.0.0

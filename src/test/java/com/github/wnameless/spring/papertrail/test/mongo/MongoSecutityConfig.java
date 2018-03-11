@@ -29,7 +29,7 @@ public class MongoSecutityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth)
       throws Exception {
-    auth.inMemoryAuthentication().withUser("test").password("123456")
+    auth.inMemoryAuthentication().withUser("test").password("{noop}123456")
         .roles("USER");
   }
 
