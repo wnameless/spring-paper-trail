@@ -11,5 +11,7 @@ Version 0.3.0
 * Deprecate PaperTrailCallback
 
 Version 0.4.0
-* Upgrade to Spring Boot v2.0.0
+* Upgrade to Spring Boot v3.0.0
 - Remove PaparTrailCallback
+* Minimal JDK version: 17
+- Remove AbstractMongoPaperTrail
