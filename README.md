@@ -17,13 +17,15 @@ Log essential information about any stateful request which includes:
 ## Features
 1. Supports all kinds of databases
 2. Provides callbacks for sophisticated operations
+3. Here are v0.4.x for Spring Boot v3.x.x and v0.3.x for Spring Boot v2.x.x
 
 ## Maven Repo
 ```xml
 <dependency>
 	<groupId>com.github.wnameless.spring</groupId>
 	<artifactId>spring-paper-trail</artifactId>
-	<version>0.3.0</version>
+	<version>${newestVersion}</version>
+	<!-- Newest version shows in the maven-central badge above -->
 </dependency>
 ```
 
@@ -126,14 +128,4 @@ public AroundPaperTrailCallback<JpaPaperTrail, PaperTrailJpaRepository> aroundTr
       }
   };
 }
-
-// It's deprecated since v0.3.0
-@Bean
-public PaperTrailCallback<JpaPaperTrail> paperTrailCallback() {
-  return new PaperTrailCallback<JpaPaperTrail>() {
-    public void doWithPaperTrail(JpaPaperTrail paperTrail,
-        HttpServletRequest request, HttpServletResponse response) {...}
-  };
-}
 ```
-
