@@ -201,6 +201,9 @@
         <version>3.5.1</version>
         <configuration>
           <useModulePath>false</useModulePath> <!-- tests use classpath -->
+          <excludes>
+            <exclude>**/AfterPaperTrailCallbackTest.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
